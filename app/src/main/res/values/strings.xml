@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">WorkflowManagementAndroid</string>
+    <string name="login">Đăng nhập</string>
+    <string name="forget_password">Quên mật khẩu</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="password">mật khẩu</string>
+    <string name="usename">tài khoản</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="list_works">Danh sách công việc</string>
+    <string name="notice">Thông báo</string>
+    <string name="list_group">Danh sách nhóm</string>
+    <string name="people">Thành viên</string>
+    <string name="work">Công vệc</string>
+    <string name="home_page">Trang chính</string>
+    <string name="work_management">Quản lý công việc</string>
+    <string name="update_time_signature">Cập nhật mốc thơi gian</string>
+    <string name="name_work">Tên công việc</string>
+    <string name="content_work">Nội dung công việc</string>
+    <string name="time_finish">Thời gian hoàn thành</string>
+    <string name="list_timeline">Các mốc thời gian</string>
+    <string name="save">Lưu</string>
+    <string name="add_timeline">Thêm mốc thời gian</string>
+    <string name="cancel">Hủy</string>
+    <string name="title_activity_maps">MapsActivity</string>
+</resources>
