@@ -1,30 +1,29 @@
 package com.example.workflowmanagementandroid.Model;
 
+import java.util.List;
+
 public class User {
-    private int img;
-    private String name;
 
-    public User(){
 
-    }
-    public User(int img, String name) {
-        this.img = img;
-        this.name = name;
-    }
 
-    public int getImg() {
-        return img;
-    }
+        private long id;
 
-    public void setImg(int img) {
-        this.img = img;
-    }
 
-    public String getName() {
-        return name;
-    }
+        private String name;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+        private String userName;
+
+        private String passWord;
+
+        private byte[] img;
+
+        private List<GroupMember> listGroupJoin;
+
+
+        private List<Group> listGroupHost;
+
+        private List<TaskMember> listTaskMembers;
+
+
+
 }

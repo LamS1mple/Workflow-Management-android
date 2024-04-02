@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import com.example.workflowmanagementandroid.Adapter.ListWorkAdapter;
 import com.example.workflowmanagementandroid.Model.Group;
 import com.example.workflowmanagementandroid.Model.User;
-import com.example.workflowmanagementandroid.Model.Work;
 import com.example.workflowmanagementandroid.R;
 
 import java.time.LocalDateTime;
