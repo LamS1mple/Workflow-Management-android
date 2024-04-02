@@ -62,7 +62,7 @@ public class AheadOfScheduleFragment extends Fragment {
     private ListWorkAdapter listWorkAdapter;
     private RecyclerView recyclerView;
 
-    private List<Work> workList;
+//    private List<Work> workList;
     private  WorkFragment workFragment;
 
     @Override
@@ -93,24 +93,24 @@ public class AheadOfScheduleFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_schedule);
         listWorkAdapter = new ListWorkAdapter();
-        workList = new ArrayList<>();
-
-        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
-                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
-        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
-                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
-        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
-                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
-        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
-                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
-        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
-                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
-        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
-                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
-        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
-                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
-
-        listWorkAdapter.setListWork(workList);
+//        workList = new ArrayList<>();
+//
+//        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
+//                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
+//        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
+//                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
+//        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
+//                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
+//        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
+//                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
+//        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
+//                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
+//        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
+//                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
+//        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
+//                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
+//
+//        listWorkAdapter.setListWork(workList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);

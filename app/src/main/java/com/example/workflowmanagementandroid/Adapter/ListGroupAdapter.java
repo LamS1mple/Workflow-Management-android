@@ -49,17 +49,17 @@ public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.imgGroup.setImageResource(groupList.get(position).getImgGroup());
-        holder.nameGroup.setText(groupList.get(position).getNameGroup());
-        holder.nameHost.setText(groupList.get(position).getUser().getName());
-
-        holder.viewGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText( v.getContext(), position + "", Toast.LENGTH_SHORT).show();
-                behaviorToFragmentGroup.clickItemGroup(position);
-            }
-        });
+//        holder.imgGroup.setImageResource(groupList.get(position).getImgGroup());
+//        holder.nameGroup.setText(groupList.get(position).getNameGroup());
+//        holder.nameHost.setText(groupList.get(position).getUser().getName());
+//
+//        holder.viewGroup.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText( v.getContext(), position + "", Toast.LENGTH_SHORT).show();
+//                behaviorToFragmentGroup.clickItemGroup(position);
+//            }
+//        });
 
     }
 

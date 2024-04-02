@@ -23,11 +23,7 @@ import com.example.workflowmanagementandroid.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GroupFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class GroupFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -53,19 +49,18 @@ public class GroupFragment extends Fragment {
         btnNotice = view.findViewById(R.id.ic_notification);
         listGroup = new ArrayList<>();
 
-        listGroup.add(new Group("Lập trình android", "1234",
-                new User(R.drawable.user,"Trương Thanh Tùng"), R.drawable.test_img_group));
-
-        listGroup.add(new Group("Lập trình android", "1234",
-                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group));
+//        listGroup.add(new Group("Lập trình android", "1234",
+//                new User(R.drawable.user,"Trương Thanh Tùng"), R.drawable.test_img_group));
+//
+//        listGroup.add(new Group("Lập trình android", "1234",
+//                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group));
 
         ListGroupAdapter listGroupAdapter = new ListGroupAdapter();
         listGroupAdapter.setGroupList(listGroup);
         listGroupAdapter.setBehaviorToFragmentGroup(new ListGroupAdapter.BehaviorToFragmentGroup() {
             @Override
             public void clickItemGroup(int id) {
-                Intent intent = new Intent(getActivity(), GroupActivity.class);
-                startActivity(intent);
+               
             }
         });
 

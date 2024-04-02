@@ -45,6 +45,7 @@ public class GroupActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == android.R.id.home){
             finish();
+
             Toast.makeText(this, "back", Toast.LENGTH_SHORT).show();
             return true;
         }

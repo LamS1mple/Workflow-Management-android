@@ -11,15 +11,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workflowmanagementandroid.Model.Task;
 import com.example.workflowmanagementandroid.R;
 
 import java.util.List;
 
 public class ListWorkAdapter extends RecyclerView.Adapter<ListWorkAdapter.ViewHolder> {
 
-    private List<Work> listWork;
+    private List<Task> listWork;
 
-    public void setListWork(List<Work> listWork) {
+    public void setListWork(List<Task> listWork) {
         this.listWork = listWork;
         notifyDataSetChanged();
     }
@@ -33,13 +34,13 @@ public class ListWorkAdapter extends RecyclerView.Adapter<ListWorkAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.nameGroup.setText(listWork.get(position).getGroup().getNameGroup());
-        holder.titleWork.setText(listWork.get(position).getNameWork());
-        holder.timeWork.setText(listWork.get(position).getDateTimeWork().toString());
-
-        holder.editWork.setOnClickListener((view) ->{
-            createdMenu(view);
-        });
+//        holder.nameGroup.setText(listWork.get(position).getGroup().getNameGroup());
+//        holder.titleWork.setText(listWork.get(position).getNameWork());
+//        holder.timeWork.setText(listWork.get(position).getDateTimeWork().toString());
+//
+//        holder.editWork.setOnClickListener((view) ->{
+//            createdMenu(view);
+//        });
 
     }
 

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.workflowmanagementandroid.Adapter.ListWorkAdapter;
 import com.example.workflowmanagementandroid.Model.Group;
+import com.example.workflowmanagementandroid.Model.Task;
 import com.example.workflowmanagementandroid.Model.User;
 import com.example.workflowmanagementandroid.R;
 
@@ -62,7 +63,7 @@ public class AfterTheDeadline extends Fragment {
     private ListWorkAdapter listWorkAdapter;
     private RecyclerView recyclerView;
 
-    private List<Work> workList;
+    private List<Task> workList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,8 +92,8 @@ public class AfterTheDeadline extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_schedule);
         listWorkAdapter = new ListWorkAdapter();
         workList = new ArrayList<>();
-        workList.add(new Work("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
-                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
+//        workList.add(new ("Hoan thaành database", LocalDateTime.now() , new Group("Lập trình android", "1234",
+//                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group)));
 
         listWorkAdapter.setListWork(workList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

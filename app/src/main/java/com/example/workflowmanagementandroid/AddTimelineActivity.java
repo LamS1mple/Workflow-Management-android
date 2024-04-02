@@ -33,6 +33,7 @@ public class AddTimelineActivity extends AppCompatActivity {
 
     private void onClick() {
         btnBack.setOnClickListener(v -> {
+
             finish();
         });
 
