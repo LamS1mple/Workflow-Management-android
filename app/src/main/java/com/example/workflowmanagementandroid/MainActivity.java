@@ -15,6 +15,10 @@ import com.example.workflowmanagementandroid.ResponseApi.ApiResponse;
 import com.example.workflowmanagementandroid.api.ApiService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,23 +53,24 @@ public class MainActivity extends AppCompatActivity {
         ApiService.apiService.login(user).enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                ApiResponse apiResponse = response.body();
-                if (apiResponse != null) {
-                    Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("user", apiResponse);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(MainActivity.this, getString(R.string.fail_username_passwork), Toast.LENGTH_LONG).show();
 
-                }
+                    ApiResponse api = response.body();
+
+                    if (api != null && api.getCode() == 1000) {
+                        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                        Bundle bundle = new Bundle();
+                        Gson gson = new Gson();
+                        bundle.putString("user", gson.toJson(api));
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(MainActivity.this, getString(R.string.fail_username_passwork), Toast.LENGTH_LONG).show();
+                    }
+
             }
-
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-
-                Toast.makeText(MainActivity.this, getString(R.string.login_fail), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
             }
         });
     }

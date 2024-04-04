@@ -2,9 +2,9 @@ package com.example.workflowmanagementandroid.ResponseApi;
 
 import java.io.Serializable;
 
-public class ApiResponse implements Serializable {
+public class ApiResponse{
 
-    private int code = 1000;
+    private int code ;
     private Object result;
 
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -12,14 +13,20 @@ import com.example.workflowmanagementandroid.Fragment.AccountFragment;
 import com.example.workflowmanagementandroid.Fragment.GroupFragment;
 import com.example.workflowmanagementandroid.Fragment.HomeFragment;
 import com.example.workflowmanagementandroid.Fragment.WorkFragment;
+import com.example.workflowmanagementandroid.Model.User;
+import com.example.workflowmanagementandroid.ResponseApi.ApiResponse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class MainActivity2 extends AppCompatActivity {
 
     private BottomNavigationView navigationView;
     private FragmentManager fragmentManager;
     private Fragment homeFragment, noteFragment, groupFragment, accountFragment;
+
+    private ApiResponse apiResponse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,14 +36,14 @@ public class MainActivity2 extends AppCompatActivity {
 
 
 
-
-
-
-
     }
 
     void findId(){
+        Bundle bundle = getIntent().getExtras();
+        String jsonUser = bundle.getString("user");
         homeFragment = new HomeFragment();
+        homeFragment.setArguments(bundle);
+
         noteFragment = new WorkFragment();
         groupFragment = new GroupFragment();
         accountFragment = new AccountFragment();
