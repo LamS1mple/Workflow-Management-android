@@ -42,6 +42,8 @@ public class JsonToObject {
 
             if (!result.isNull("img") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 user.setImg(Base64.getDecoder().decode(result.getString("img")));
+            }else{
+                user.setImg(null);
             }
 
             return user;

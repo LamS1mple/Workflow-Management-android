@@ -6,4 +6,6 @@
     <color name="color_back">#76ABAE</color>
     <color name="color_back_notice">#ACE2E1</color>
     <color name="red">#E65D5D</color>
+    <color name="warning">#ffcc00</color>
+    <color name="green">#99cc33</color>
 </resources>

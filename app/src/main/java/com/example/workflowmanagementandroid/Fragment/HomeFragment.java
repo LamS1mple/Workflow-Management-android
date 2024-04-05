@@ -8,6 +8,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.workflowmanagementandroid.Adapter.ListTaskMemberAdapter;
 import com.example.workflowmanagementandroid.MainActivity2;
 import com.example.workflowmanagementandroid.Mapper.JsonToObject;
 import com.example.workflowmanagementandroid.Model.TaskMember;
@@ -43,6 +47,9 @@ public class HomeFragment extends Fragment {
     private TextView nameUser;
 
     private List<TaskMember> taskMemberList;
+
+    private RecyclerView recyclerViewTask;
+    private ListTaskMemberAdapter listTaskMemberAdapter;
     private User user;
     private ProgressBar progressBar;
 
@@ -58,23 +65,32 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // get api from arg
         String api = (String) getArguments().getString("user");
 
+        // convert json to object
         user = JsonToObject.getInstance().jsonToUser(api);
 
-        Log.d("userid", user.getId() + "");
+        findId(view);
+
+        //get task of user
         ApiService.apiService.getTaskOfMember(user.getId() ).enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                ApiResponse apiResponse =  response.body();
 
+                ApiResponse apiResponse =  response.body();
                 if (apiResponse != null && apiResponse.getCode() == 1000){
                     progressBar.setVisibility(View.INVISIBLE);
 
                     Gson gson = new Gson();
                     taskMemberList = JsonToObject.getInstance()
                             .jsonToListTaskMember(gson.toJson(apiResponse));
-                    if (taskMemberList == null){
+
+                    // set adapter to recycler
+                    listTaskMemberAdapter.setTaskMemberList(taskMemberList);
+                    recyclerViewTask.setAdapter(listTaskMemberAdapter);
+                    // check list task
+                    if (taskMemberList.isEmpty()){
                         checkTask.setVisibility(View.VISIBLE);
                     }
 
@@ -90,7 +106,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        findId(view);
         setDate();
 
         btn_notification.setOnClickListener(v -> {
@@ -101,7 +116,6 @@ public class HomeFragment extends Fragment {
 
     private void setDate() {
         nameUser.setText(user.getName());
-        Log.d("user", user.getImg().length + "");
         if (user.getImg() != null){
             Bitmap bitmap = BitmapFactory.decodeByteArray(user.getImg(), 0 , user.getImg().length);
             imageUser.setImageBitmap(bitmap);
@@ -110,10 +124,22 @@ public class HomeFragment extends Fragment {
     }
 
     private  void findId(View view){
+        // id
         btn_notification = view.findViewById(R.id.ic_notification);
         nameUser = view.findViewById(R.id.name_user);
         imageUser = view.findViewById(R.id.img_user);
         progressBar = view.findViewById(R.id.loadingTask);
         checkTask = view.findViewById(R.id.check_task);
+
+        // khoi tao recycler
+        recyclerViewTask = view.findViewById(R.id.list_work_home_fragment);
+        listTaskMemberAdapter = new ListTaskMemberAdapter(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerViewTask.setLayoutManager(linearLayoutManager);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerViewTask.getContext(), LinearLayoutManager.VERTICAL);
+        recyclerViewTask.addItemDecoration(dividerItemDecoration);
+
     }
 }
