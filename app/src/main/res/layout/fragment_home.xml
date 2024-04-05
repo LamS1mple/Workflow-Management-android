@@ -88,14 +88,16 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
 
+                android:layout_height="0dp"
+                android:background="@drawable/soild_fragment"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:background="@drawable/soild_fragment"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/list_work_home_fragment"
                     android:layout_width="match_parent"
@@ -103,6 +105,26 @@
 
             </LinearLayout>
 
+            <ProgressBar
+                android:id="@+id/loadingTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <TextView
+                android:id="@+id/check_task"
+                android:textSize="30dp"
+                android:visibility="invisible"
+                android:text="@string/no_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout4"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

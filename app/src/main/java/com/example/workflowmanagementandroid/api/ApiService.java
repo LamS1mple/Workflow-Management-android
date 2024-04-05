@@ -18,16 +18,16 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 
-public interface  ApiService {
+public interface ApiService {
     Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd")
             .create();
     ApiService apiService = new Retrofit.Builder()
-            .baseUrl("http://192.168.0.102:8080/")
+
+            .baseUrl("http://192.168.122.203:8080/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
-
 
 
     @POST("user/login-user")
@@ -35,9 +35,6 @@ public interface  ApiService {
 
     @GET("task/get-all-task-of-user/{id}")
     Call< ApiResponse > getTaskOfMember(@Path("id") long id);
-
-
-
 
 
 }

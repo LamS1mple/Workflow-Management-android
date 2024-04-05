@@ -13,6 +13,7 @@ public class TaskMember {
 
     private boolean isFinish;
 
+    private String content;
 
     private Task task;
 
@@ -75,6 +76,14 @@ public class TaskMember {
 
     public List<Media> getListMedia() {
         return listMedia;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public void setListMedia(List<Media> listMedia) {

@@ -25,4 +25,5 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="login_fail">Đăng nhập thất bại</string>
     <string name="fail_username_passwork">Sai tài khoản hoặc mật khẩu</string>
+    <string name="no_task">Chưa có công việc</string>
 </resources>
