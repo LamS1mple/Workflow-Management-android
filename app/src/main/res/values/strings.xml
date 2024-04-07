@@ -27,4 +27,6 @@
     <string name="fail_username_passwork">Sai tài khoản hoặc mật khẩu</string>
     <string name="no_task">Chưa có công việc</string>
     <string name="task_my_self">Công việc của bản thân</string>
+    <string name="ahead_of_schedule">Trước kỳ hạn</string>
+    <string name="after_the_deadline">"Sau kỳ hạn "</string>
 </resources>

@@ -33,7 +33,7 @@ public class ListTaskMemberAdapter extends RecyclerView.Adapter<ListTaskMemberAd
     private Context context;
 
      public ListTaskMemberAdapter(Context context){
-        simpleDateFormat = new SimpleDateFormat("hh:mm dd/MM/yyyy");
+         simpleDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
         this.context = context;
     }
     public void setTaskMemberList(List<TaskMember> taskMemberList){
@@ -54,17 +54,25 @@ public class ListTaskMemberAdapter extends RecyclerView.Adapter<ListTaskMemberAd
         holder.timeWork.setText(
                 simpleDateFormat.format(taskMemberList.get(position).getDateFinish())
         );
+        holder.titleWork.setText(taskMemberList.get(position).getContent());
         Group group = taskMemberList.get(position).getTask().getGroup();
         if (group == null){
             holder.nameGroup.setText(context.getString(R.string.task_my_self));
         }else{
             holder.nameGroup.setText(group.getNameGroup() );
         }
-        long time = taskMemberList.get(position).getDateFinish().getTime();
-        if ( (-Calendar.getInstance().getTime().getTime() + time) / 86400000 <= 10 ){
-            holder.backGround.setBackgroundColor(context.getColor(R.color.warning));
-        } else{
+        long time = (taskMemberList.get(position).getDateFinish().getTime()
+                - Calendar.getInstance().getTime().getTime()) /86400000;
+        if (taskMemberList.get(position).isFinish()){
             holder.backGround.setBackgroundColor(context.getColor(R.color.green));
+        }else{
+            if (  time > 10 ){
+                holder.backGround.setBackgroundColor(context.getColor(R.color.white));
+            }else if (time > 0){
+                holder.backGround.setBackgroundColor(context.getColor(R.color.warning));
+            } else{
+                holder.backGround.setBackgroundColor(context.getColor(R.color.red));
+            }
         }
 
     }

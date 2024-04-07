@@ -36,7 +36,13 @@ public class JsonToObject {
         try {
             User user = new User();
             JSONObject jsonObject = new JSONObject(object);
-            JSONObject result = jsonObject.getJSONObject("result");
+            JSONObject result = null;
+            if (jsonObject.has("result")){
+                result = jsonObject.getJSONObject("result");
+            }
+            else{
+                result = jsonObject;
+            }
             user.setId(result.getInt("id"));
             user.setName( result.getString("name"));
 
@@ -49,6 +55,7 @@ public class JsonToObject {
             return user;
 
         } catch (JSONException e) {
+
             throw new RuntimeException(e);
         }
     }
@@ -87,12 +94,14 @@ public class JsonToObject {
 
                 task.setPostDate( dateFormat.parse( jsonTask.getString("postDate")) );
 
-                Group group = new Group();
-                JSONObject jsonGroup = jsonTask.getJSONObject("group");
+                Group group = null;
+                if (!jsonTask.isNull("group")) {
+                    group = new Group();
+                    JSONObject jsonGroup = jsonTask.getJSONObject("group");
 
-                group.setId(jsonGroup.getInt("id"));
-                group.setNameGroup(jsonGroup.getString("nameGroup"));
-
+                    group.setId(jsonGroup.getInt("id"));
+                    group.setNameGroup(jsonGroup.getString("nameGroup"));
+                }
                 task.setGroup(group);
 
                 taskMember.setTask(task);

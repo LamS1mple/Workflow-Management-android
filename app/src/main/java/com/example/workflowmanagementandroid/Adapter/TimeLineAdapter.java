@@ -13,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workflowmanagementandroid.Model.DetailTaskMember;
 import com.example.workflowmanagementandroid.Model.Group;
-import com.example.workflowmanagementandroid.Model.Task;
 import com.example.workflowmanagementandroid.Model.TaskMember;
 import com.example.workflowmanagementandroid.R;
 
@@ -22,61 +22,38 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-public class ListWorkAdapter extends RecyclerView.Adapter<ListWorkAdapter.ViewHolder> {
+public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder> {
 
-    private List<TaskMember> taskMemberList;
+    private List<DetailTaskMember> detailTaskMemberList;
     private SimpleDateFormat simpleDateFormat;
-    private Context context;
-    public void setListWork(List<TaskMember> listWork) {
-        this.taskMemberList = listWork;
+    public void setListWork(List<DetailTaskMember> listWork) {
+        this.detailTaskMemberList = listWork;
         notifyDataSetChanged();
     }
 
-    public ListWorkAdapter(Context context){
+    public TimeLineAdapter(){
         simpleDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
-        this.context = context;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TimeLineAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_work, parent, false);
-        return new ViewHolder(view);
+        return new TimeLineAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TimeLineAdapter.ViewHolder holder, int position) {
 
         holder.editWork.setOnClickListener((view) ->{
             createdMenu(view);
         });
-        holder.titleWork.setText(taskMemberList.get(position).getContent());
+        holder.titleWork.setText(detailTaskMemberList.get(position).getContentTask());
 
         holder.timeWork.setText(
-                simpleDateFormat.format(taskMemberList.get(position).getDateFinish())
+                simpleDateFormat.format(detailTaskMemberList.get(position).getDateFinish())
         );
-        Group group = taskMemberList.get(position).getTask().getGroup();
-        if (group == null){
-            holder.nameGroup.setText(context.getString(R.string.task_my_self));
-        }else{
-            holder.nameGroup.setText(group.getNameGroup() );
-        }
-
-
-        // setup sign
-        long time = (taskMemberList.get(position).getDateFinish().getTime()
-                - Calendar.getInstance().getTime().getTime()) / 86400000;
-        if (taskMemberList.get(position).isFinish()){
-            holder.backGround.setBackgroundColor(context.getColor(R.color.green));
-        }else{
-            if (  time > 10 ){
-                holder.backGround.setBackgroundColor(context.getColor(R.color.white));
-            }else if (time > 0){
-                holder.backGround.setBackgroundColor(context.getColor(R.color.warning));
-            } else{
-                holder.backGround.setBackgroundColor(context.getColor(R.color.red));
-            }
-        }
+        holder.nameGroup.setText(detailTaskMemberList.get(position).getTitleTask());
 
 
     }
@@ -93,12 +70,11 @@ public class ListWorkAdapter extends RecyclerView.Adapter<ListWorkAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        if (taskMemberList == null) return 0;
-        return taskMemberList.size();
+        if (detailTaskMemberList == null) return 0;
+        return detailTaskMemberList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ConstraintLayout backGround;
         private TextView nameGroup;
         private TextView titleWork;
         private TextView timeWork;
@@ -106,7 +82,6 @@ public class ListWorkAdapter extends RecyclerView.Adapter<ListWorkAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            backGround = itemView.findViewById(R.id.background_item_work);
             nameGroup = itemView.findViewById(R.id.name_group);
             titleWork = itemView.findViewById(R.id.title_work);
             timeWork = itemView.findViewById(R.id.time_work);

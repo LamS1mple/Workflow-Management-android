@@ -13,6 +13,7 @@ import com.example.workflowmanagementandroid.Fragment.AccountFragment;
 import com.example.workflowmanagementandroid.Fragment.GroupFragment;
 import com.example.workflowmanagementandroid.Fragment.HomeFragment;
 import com.example.workflowmanagementandroid.Fragment.WorkFragment;
+import com.example.workflowmanagementandroid.Mapper.JsonToObject;
 import com.example.workflowmanagementandroid.Model.User;
 import com.example.workflowmanagementandroid.ResponseApi.ApiResponse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,7 +27,7 @@ public class MainActivity2 extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private Fragment homeFragment, noteFragment, groupFragment, accountFragment;
 
-    private ApiResponse apiResponse;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +41,18 @@ public class MainActivity2 extends AppCompatActivity {
 
     void findId(){
         Bundle bundle = getIntent().getExtras();
-        String jsonUser = bundle.getString("user");
+
+        String api =  bundle.getString("user");
+        user = JsonToObject.getInstance().jsonToUser(api);
+
         homeFragment = new HomeFragment();
         homeFragment.setArguments(bundle);
 
+        fragmentManager =  getSupportFragmentManager();
+
         noteFragment = new WorkFragment();
+        noteFragment.setArguments(bundle);
+
         groupFragment = new GroupFragment();
         accountFragment = new AccountFragment();
         replaceFragment(homeFragment);
@@ -54,7 +62,6 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     void replaceFragment(Fragment fragment){
-       fragmentManager =  getSupportFragmentManager();
 
        fragmentManager.beginTransaction()
                .replace(R.id.replace_fragment, fragment)
@@ -83,5 +90,13 @@ public class MainActivity2 extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

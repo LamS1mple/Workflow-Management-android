@@ -19,9 +19,13 @@ import android.widget.ImageView;
 
 import com.example.workflowmanagementandroid.Adapter.WorkAdapter;
 import com.example.workflowmanagementandroid.AddTimelineActivity;
+import com.example.workflowmanagementandroid.MainActivity2;
+import com.example.workflowmanagementandroid.Mapper.JsonToObject;
+import com.example.workflowmanagementandroid.Model.User;
 import com.example.workflowmanagementandroid.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.gson.Gson;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,13 +42,15 @@ public class WorkFragment extends Fragment {
 
     private ImageView btnAddWork;
 
-    private ActivityResultLauncher<Intent> mWork = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult o) {
+    private User user;
 
-                }
-            });
+//    private ActivityResultLauncher<Intent> mWork = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+//            new ActivityResultCallback<ActivityResult>() {
+//                @Override
+//                public void onActivityResult(ActivityResult o) {
+//
+//                }
+//            });
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,11 +62,20 @@ public class WorkFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // convert json to object
+        user = ((MainActivity2) getActivity()).getUser();
         findId(view);
 
         btnAddWork.setOnClickListener((v)->{
             Intent intent = new Intent(getActivity(), AddTimelineActivity.class);
-            mWork.launch(intent);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("who",true);
+            Gson gson = new Gson();
+            bundle.putString("user", gson.toJson(user));
+
+            intent.putExtras(bundle);
+            startActivity(intent);
+//            mWork.launch(intent);
         });
     }
 
@@ -76,10 +91,10 @@ public class WorkFragment extends Fragment {
 
         new TabLayoutMediator(tabLayout, viewPager2, (tab , postion) ->{
             if (postion == 0){
-                tab.setText("Trước kỳ hạn");
+                tab.setText(getString(R.string.ahead_of_schedule));
             }
             else{
-                tab.setText("Sau kỳ hạn");
+                tab.setText(getString(R.string.after_the_deadline) );
             }
         }).attach();
     }

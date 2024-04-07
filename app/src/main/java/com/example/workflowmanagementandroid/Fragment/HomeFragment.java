@@ -65,16 +65,12 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // get api from arg
-        String api = (String) getArguments().getString("user");
-
-        // convert json to object
-        user = JsonToObject.getInstance().jsonToUser(api);
+        user = ( (MainActivity2) getActivity() ).getUser();
 
         findId(view);
 
         //get task of user
-        ApiService.apiService.getTaskOfMember(user.getId() ).enqueue(new Callback<ApiResponse>() {
+        ApiService.apiService.getTaskOfMember(user.getId(), false ).enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
 
