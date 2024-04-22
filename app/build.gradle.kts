@@ -49,5 +49,16 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.3.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.3.0")
 
+    implementation ("com.github.ZEGOCLOUD:zego_uikit_prebuilt_video_conference_android:+")
+
+
+    // (Java only)
+    //noinspection GradleDependency
+//    implementation ("androidx.work:work-runtime:2.8.0")
+
+    val work_version = "2.8.0"
+
+    // (Java only)
+    implementation("androidx.work:work-runtime:$work_version")
 
 }

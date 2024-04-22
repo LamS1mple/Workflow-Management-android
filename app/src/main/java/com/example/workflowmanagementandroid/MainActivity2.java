@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -44,7 +45,11 @@ public class MainActivity2 extends AppCompatActivity {
 
         String api =  bundle.getString("user");
         user = JsonToObject.getInstance().jsonToUser(api);
+        SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
 
+        editor.putString("userString", gson.toJson(user));
+        editor.apply();
         homeFragment = new HomeFragment();
         homeFragment.setArguments(bundle);
 
@@ -54,6 +59,8 @@ public class MainActivity2 extends AppCompatActivity {
         noteFragment.setArguments(bundle);
 
         groupFragment = new GroupFragment();
+        groupFragment.setArguments(bundle);
+
         accountFragment = new AccountFragment();
         replaceFragment(homeFragment);
 

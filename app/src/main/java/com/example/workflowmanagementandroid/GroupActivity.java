@@ -5,10 +5,19 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.example.workflowmanagementandroid.Model.Group;
+import com.example.workflowmanagementandroid.api.ApiService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class GroupActivity extends AppCompatActivity {
 
@@ -50,7 +59,7 @@ public class GroupActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.zoom){
-            Toast.makeText(this, "zoom", Toast.LENGTH_SHORT).show();
+            clickZoom();
         }
         if (id == R.id.work_menu){
             Toast.makeText(this, "work", Toast.LENGTH_SHORT).show();
@@ -61,5 +70,30 @@ public class GroupActivity extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void clickZoom() {
+        Log.d("idGroup", getIntent().getLongExtra("idGroup",0) +"");
+        ApiService.apiService.getZoom(getIntent().getLongExtra("idGroup",0))
+                .enqueue(new Callback<Group>() {
+            @Override
+            public void onResponse(Call<Group> call, Response<Group> response) {
+                Group group = response.body();
+                if (group != null){
+                    Intent intent = new Intent(GroupActivity.this, ConferenceActivity.class);
+                    intent.putExtra("passZoom", group.getPassZoom());
+                    startActivity(intent);
+
+                }else{
+                    Toast.makeText(GroupActivity.this, "null", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Group> call, Throwable t) {
+                Log.d("loi", t.toString());
+                Toast.makeText(GroupActivity.this, "Fail", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -57,4 +57,15 @@ public class Post {
     public void setListMedia(List<Media> listMedia) {
         this.listMedia = listMedia;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", postDate=" + postDate +
+                ", content='" + content + '\'' +
+                ", group=" + group +
+                ", listMedia=" + listMedia +
+                '}';
+    }
 }

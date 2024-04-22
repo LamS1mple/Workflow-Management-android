@@ -77,14 +77,14 @@ public class JsonToObject {
             JSONObject jsonObject = new JSONObject(s);
             JSONArray jsonArray = jsonObject.getJSONArray("result");
             int size = jsonArray.length();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             for (int i = 0 ;  i < size ; i ++){
                 TaskMember taskMember = new TaskMember();
 
                 JSONObject item = jsonArray.getJSONObject(i);
                 taskMember.setId(item.getInt("id"));
-                taskMember.setContent(item.getString("contentTask"));
+                taskMember.setContentTask(item.getString("contentTask"));
                 taskMember.setFinish(item.getBoolean("finish"));
                 taskMember.setDateFinish(dateFormat.parse(item.getString("dateFinish")));
 

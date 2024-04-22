@@ -13,7 +13,7 @@ public class TaskMember {
 
     private boolean isFinish;
 
-    private String content;
+    private String contentTask;
 
     private Task task;
 
@@ -78,15 +78,30 @@ public class TaskMember {
         return listMedia;
     }
 
-    public String getContent() {
-        return content;
+
+    public String getContentTask() {
+        return contentTask;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setContentTask(String contentTask) {
+        this.contentTask = contentTask;
     }
 
     public void setListMedia(List<Media> listMedia) {
         this.listMedia = listMedia;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskMember{" +
+                "id=" + id +
+                ", dateFinish=" + dateFinish +
+                ", isFinish=" + isFinish +
+                ", content='" + contentTask + '\'' +
+                ", task=" + task +
+                ", user=" + user +
+                ", listDetalDetailTaskMember=" + listDetalDetailTaskMember +
+                ", listMedia=" + listMedia +
+                '}';
     }
 }

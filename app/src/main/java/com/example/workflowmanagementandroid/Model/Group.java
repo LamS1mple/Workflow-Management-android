@@ -15,6 +15,7 @@ public class Group {
 
     private User hostGroup;
 
+    private String passZoom;
 
     private List<GroupMember> listMembers;
 
@@ -65,7 +66,16 @@ public class Group {
         return listPosts;
     }
 
+    public String getPassZoom() {
+        return passZoom;
+    }
+
+    public void setPassZoom(String passZoom) {
+        this.passZoom = passZoom;
+    }
+
     public void setListPosts(List<Post> listPosts) {
         this.listPosts = listPosts;
     }
+
 }

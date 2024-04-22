@@ -1,8 +1,12 @@
 package com.example.workflowmanagementandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findId();
+        WorkRequest create = new OneTimeWorkRequest.Builder(NoticeWorker.class)
+                .build();
+        WorkManager.getInstance(this).enqueue(create);
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,8 +66,12 @@ public class MainActivity extends AppCompatActivity {
                     if (api != null && api.getCode() == 1000) {
                         Intent intent = new Intent(MainActivity.this, MainActivity2.class);
                         Bundle bundle = new Bundle();
+
+
+
                         Gson gson = new Gson();
                         bundle.putString("user", gson.toJson(api));
+
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }else{

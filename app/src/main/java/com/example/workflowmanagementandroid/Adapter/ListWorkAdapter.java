@@ -50,7 +50,7 @@ public class ListWorkAdapter extends RecyclerView.Adapter<ListWorkAdapter.ViewHo
         holder.editWork.setOnClickListener((view) ->{
             createdMenu(view);
         });
-        holder.titleWork.setText(taskMemberList.get(position).getContent());
+        holder.titleWork.setText(taskMemberList.get(position).getContentTask());
 
         holder.timeWork.setText(
                 simpleDateFormat.format(taskMemberList.get(position).getDateFinish())

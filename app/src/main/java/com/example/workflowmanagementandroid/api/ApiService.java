@@ -1,6 +1,7 @@
 package com.example.workflowmanagementandroid.api;
 
 
+import com.example.workflowmanagementandroid.Model.Group;
 import com.example.workflowmanagementandroid.Model.TaskMember;
 import com.example.workflowmanagementandroid.Model.User;
 import com.example.workflowmanagementandroid.ResponseApi.ApiResponse;
@@ -22,11 +23,11 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd")
+            .setDateFormat("yyyy-MM-dd HH:mm:ss")
             .create();
     ApiService apiService = new Retrofit.Builder()
 
-            .baseUrl("http://192.168.0.105:8080/")
+            .baseUrl("http://192.168.77.203:8080/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
@@ -38,11 +39,18 @@ public interface ApiService {
     @GET("task/get-all-task-of-user/{id}/{check}")
     Call< ApiResponse > getTaskOfMember(@Path("id") long id,
                                               @Path("check") boolean check);
-    @POST("task/get-task-after-schedule")
+        @POST("task/get-task-after-schedule")
     Call< ApiResponse > getTaskAfter(@Query("id") long id);
 
     @POST("task/get-task-ahead-schedule")
     Call< ApiResponse > getTaskAhead(@Query("id") long id);
 
+    @POST("task/save-task-member")
+    Call<ApiResponse> saveTaskMember(@Body TaskMember taskMember);
 
+    @GET("group/get-group/{id}")
+    Call<List<Group>> getGroup(@Path("id")long id);
+
+    @GET("group/get-group-{id}")
+    Call<Group> getZoom(@Path("id")long id);
 }

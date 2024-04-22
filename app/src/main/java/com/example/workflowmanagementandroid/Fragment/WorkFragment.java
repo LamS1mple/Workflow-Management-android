@@ -70,8 +70,7 @@ public class WorkFragment extends Fragment {
             Intent intent = new Intent(getActivity(), AddTimelineActivity.class);
             Bundle bundle = new Bundle();
             bundle.putBoolean("who",true);
-            Gson gson = new Gson();
-            bundle.putString("user", gson.toJson(user));
+            bundle.putLong("user",  user.getId());
 
             intent.putExtras(bundle);
             startActivity(intent);

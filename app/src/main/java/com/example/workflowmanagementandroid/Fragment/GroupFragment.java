@@ -9,25 +9,36 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.workflowmanagementandroid.Adapter.ListGroupAdapter;
 import com.example.workflowmanagementandroid.GroupActivity;
+import com.example.workflowmanagementandroid.MainActivity2;
 import com.example.workflowmanagementandroid.Model.Group;
 import com.example.workflowmanagementandroid.Model.User;
 import com.example.workflowmanagementandroid.R;
+import com.example.workflowmanagementandroid.ResponseApi.ApiResponse;
+import com.example.workflowmanagementandroid.api.ApiService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class GroupFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ImageView btnNotice;
+    private  User user;
+    private  ListGroupAdapter listGroupAdapter;
 
     private List<Group> listGroup;
     @Override
@@ -42,6 +53,26 @@ public class GroupFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         findId(view);
 
+        user = ( (MainActivity2) getActivity() ).getUser();
+
+        ApiService.apiService.getGroup(user.getId()).enqueue(new Callback<List<Group>>() {
+            @Override
+            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                 listGroup = response.body();
+                if (listGroup != null){
+                    listGroupAdapter.setGroupList(listGroup);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Group>> call, Throwable t) {
+                Toast.makeText(getContext(), "fail", Toast.LENGTH_SHORT).show();
+                Log.e("eloi", t.toString());
+            }
+        });
+
+
     }
 
     private void findId(View view) {
@@ -54,13 +85,14 @@ public class GroupFragment extends Fragment {
 //
 //        listGroup.add(new Group("Lập trình android", "1234",
 //                new User(R.drawable.user,"Lã Ngọc Hiếu"), R.drawable.test_img_group));
-
-        ListGroupAdapter listGroupAdapter = new ListGroupAdapter();
+        listGroupAdapter = new ListGroupAdapter();
         listGroupAdapter.setGroupList(listGroup);
         listGroupAdapter.setBehaviorToFragmentGroup(new ListGroupAdapter.BehaviorToFragmentGroup() {
             @Override
             public void clickItemGroup(int id) {
-               
+               Intent intent = new Intent(getActivity(), GroupActivity.class);
+               intent.putExtra("idGroup", listGroup.get(id).getId());
+                startActivity(intent);
             }
         });
 

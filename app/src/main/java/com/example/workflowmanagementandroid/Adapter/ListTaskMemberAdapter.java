@@ -54,7 +54,7 @@ public class ListTaskMemberAdapter extends RecyclerView.Adapter<ListTaskMemberAd
         holder.timeWork.setText(
                 simpleDateFormat.format(taskMemberList.get(position).getDateFinish())
         );
-        holder.titleWork.setText(taskMemberList.get(position).getContent());
+        holder.titleWork.setText(taskMemberList.get(position).getContentTask());
         Group group = taskMemberList.get(position).getTask().getGroup();
         if (group == null){
             holder.nameGroup.setText(context.getString(R.string.task_my_self));
