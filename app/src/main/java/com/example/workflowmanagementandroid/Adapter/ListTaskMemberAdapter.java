@@ -68,10 +68,17 @@ public class ListTaskMemberAdapter extends RecyclerView.Adapter<ListTaskMemberAd
         }else{
             if (  time > 10 ){
                 holder.backGround.setBackgroundColor(context.getColor(R.color.white));
-            }else if (time > 0){
+                holder.timeWork.setTextColor(context.getColor(R.color.black));
+                holder.titleWork.setTextColor(context.getColor(R.color.black));
+                holder.nameGroup.setTextColor(context.getColor(R.color.black));
+            }else if (taskMemberList.get(position).getDateFinish().getTime()
+                    - Calendar.getInstance().getTime().getTime() > 0){
                 holder.backGround.setBackgroundColor(context.getColor(R.color.warning));
             } else{
                 holder.backGround.setBackgroundColor(context.getColor(R.color.red));
+                holder.timeWork.setTextColor(context.getColor(R.color.white));
+                holder.titleWork.setTextColor(context.getColor(R.color.white));
+                holder.nameGroup.setTextColor(context.getColor(R.color.white));
             }
         }
 

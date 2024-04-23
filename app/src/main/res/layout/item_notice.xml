@@ -59,7 +59,6 @@
             android:id="@+id/time_notice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="15 thang 3"
             android:textColor="#B5C0D0"
             android:textSize="10sp" />
     </LinearLayout>

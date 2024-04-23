@@ -1,6 +1,7 @@
 package com.example.workflowmanagementandroid.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,21 @@ import java.util.Calendar;
 import java.util.List;
 
 public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder> {
+    public interface ChangeDate{
+        public void delete(int id);
+    }
 
+
+    private ChangeDate changeDate;
     private List<DetailTaskMember> detailTaskMemberList;
     private SimpleDateFormat simpleDateFormat;
     public void setListWork(List<DetailTaskMember> listWork) {
         this.detailTaskMemberList = listWork;
         notifyDataSetChanged();
+    }
+
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
     }
 
     public TimeLineAdapter(){
@@ -46,7 +56,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
     public void onBindViewHolder(@NonNull TimeLineAdapter.ViewHolder holder, int position) {
 
         holder.editWork.setOnClickListener((view) ->{
-            createdMenu(view);
+            createdMenu(view, position);
         });
         holder.titleWork.setText(detailTaskMemberList.get(position).getContentTask());
 
@@ -58,11 +68,17 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
     }
 
-    private void createdMenu(View view) {
+    private void createdMenu(View view, int po) {
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.menu_work, popupMenu.getMenu());
+        popupMenu.getMenuInflater().inflate(R.menu.menu_time_line, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener((menuItem) ->{
-            Toast.makeText(view.getContext(), menuItem.getItemId() + "", Toast.LENGTH_SHORT).show();
+            Log.d("po", detailTaskMemberList.get(po).getId() + "");
+            if (detailTaskMemberList.get(po).getId() == 0){
+                detailTaskMemberList.remove(po);
+                notifyDataSetChanged();
+            }else{
+                changeDate.delete(po);
+            }
             return true;
         });
         popupMenu.show();

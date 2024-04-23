@@ -11,13 +11,19 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.workflowmanagementandroid.Adapter.ListNoticeAdapter;
+import com.example.workflowmanagementandroid.Model.NoticeTask;
 import com.example.workflowmanagementandroid.Model.Notification;
+import com.example.workflowmanagementandroid.api.ApiService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -26,7 +32,7 @@ public class NotificationActivity extends AppCompatActivity {
 
     private ListNoticeAdapter listNoticeAdapter;
 
-    private List<Notification> listNotice;
+    private List<NoticeTask> listNotice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,21 +52,26 @@ public class NotificationActivity extends AppCompatActivity {
         listNoticeAdapter = new ListNoticeAdapter();
         listNotice = new ArrayList<>();
 
-        listNotice.add(new Notification(R.drawable.edit_icon_user, "Đăng bài mới"
-                , "Hôm nay chúng ta sẽ họp vào 7h tối"
-                , LocalDateTime.of(2020, 12, 12,10, 10)));
-        listNotice.add(new Notification(R.drawable.edit_icon_user, "Giao nhiệm vụ"
-                , "Hãy hoàn thành nhiệm vụ"
-                , LocalDateTime.of(2022, 1, 12,10, 10)));
-        listNotice.add(new Notification(R.drawable.edit_icon_user, "Deadline đang đến"
-                , "Hết hạn vào lúc 10h"
-                , LocalDateTime.of(2020, 12, 12,10, 10)));
 
         listNoticeAdapter.setList(listNotice);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(listNoticeAdapter);
+
+        long id = getIntent().getLongExtra("idUser", 0);
+        ApiService.apiService.getAllNotice(id).enqueue(new Callback<List<NoticeTask>>() {
+            @Override
+            public void onResponse(Call<List<NoticeTask>> call, Response<List<NoticeTask>> response) {
+                List<NoticeTask> list = response.body();
+                listNoticeAdapter.setList(list);
+            }
+
+            @Override
+            public void onFailure(Call<List<NoticeTask>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void click(){

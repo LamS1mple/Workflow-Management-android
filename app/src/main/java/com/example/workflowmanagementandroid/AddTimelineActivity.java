@@ -6,6 +6,9 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -43,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,27 +64,74 @@ public class AddTimelineActivity extends AppCompatActivity {
 
     private boolean checkSave;
 
+    private boolean check ;
+
     private List<DetailTaskMember> detailTaskMemberList;
+
+    private TaskMember taskMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         checkSave = false;
+        check = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_timeline);
         Bundle bundle = getIntent().getExtras();
-
+        long idTask = getIntent().getLongExtra("idTaskMember", 0);
+        findId();
+        onClick();
         assert bundle != null;
         Gson gson = new Gson();
 
-//        user = gson.fromJson(bundle.getString("user"), User.class);
         user = new User();
         user.setId(bundle.getLong("user"));
+        if (idTask != 0){
+            check = true;
+            Log.d("idTask", idTask +"");
+            ApiService.apiService.getTaskId(idTask).enqueue(new Callback<TaskMember>() {
+                @Override
+                public void onResponse(Call<TaskMember> call, Response<TaskMember> response) {
+                    taskMember = response.body();
+                    detailTaskMemberList = taskMember.getListDetalDetailTaskMember();
+                    timeLineAdapter.setListWork(detailTaskMemberList);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+                    editTimeFinish.setText(simpleDateFormat.format(taskMember.getDateFinish()));
+                    editContentWork.setText(taskMember.getContentTask());
+                    editNameWork.setText(taskMember.getTask().getTitle());
+                }
+
+                @Override
+                public void onFailure(Call<TaskMember> call, Throwable t) {
+                    Log.d("loi", t.toString());
+
+                }
+            });
+        }
+
+        timeLineAdapter.setChangeDate(new TimeLineAdapter.ChangeDate() {
+            @Override
+            public void delete(int id) {
+                Log.d("size", detailTaskMemberList.size() + "");
+                ApiService.apiService.deteleTask(detailTaskMemberList.get(id).getId()).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Toast.makeText(AddTimelineActivity.this, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                        detailTaskMemberList.remove(id);
+                        timeLineAdapter.setListWork(detailTaskMemberList);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
+
+            }
+        });
+
         
-        findId();
-        onClick();
-        // is fix task ?
-//        if (!bundle.getBoolean("who")){
-//        }
+
+
 
 
     }
@@ -100,41 +151,81 @@ public class AddTimelineActivity extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener( v ->{
-            Task task = new Task();
-            task.setGroup(null);
-            task.setContent(null);
-            task.setTitleTask(editNameWork.getText().toString());
-
-
-            TaskMember taskMember = new TaskMember();
-            taskMember.setUser(user);
-            taskMember.setFinish(false);
-            taskMember.setContentTask(editContentWork.getText().toString());
-            try {
-                task.setDateFinish(convertDate(editTimeFinish.getText().toString()));
-                taskMember.setDateFinish(convertDate(editTimeFinish.getText().toString()));
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+            if (check){
+                tontai();
             }
-            taskMember.setListDetalDetailTaskMember(detailTaskMemberList);
-
-            taskMember.setTask(task);
-
-
-            Log.d("taskMember", taskMember.toString());
-            ApiService.apiService.saveTaskMember(taskMember).enqueue(new Callback<ApiResponse>() {
-                @Override
-                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                    Toast.makeText(AddTimelineActivity.this, "Lưu thành công", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Call<ApiResponse> call, Throwable t) {
-                    Toast.makeText(AddTimelineActivity.this, "Lưu thất bại", Toast.LENGTH_SHORT).show();
-                }
-            });
+            else{
+                sur();
+            }
 
 
+        });
+    }
+
+    private void tontai() {
+        taskMember.setContentTask(editContentWork.getText().toString());
+        taskMember.getTask().setTitleTask(editNameWork.getText().toString());
+        Date date ;
+        try {
+            date = convertDate(editTimeFinish.getText().toString());
+            taskMember.setDateFinish(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        taskMember.setListDetalDetailTaskMember(detailTaskMemberList);
+        ApiService.apiService.updateTaskMember(taskMember).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Toast.makeText(AddTimelineActivity.this, "Thanh cong", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void sur() {Task task = new Task();
+        task.setGroup(null);
+        task.setContent(null);
+        task.setTitleTask(editNameWork.getText().toString());
+
+
+        TaskMember taskMember = new TaskMember();
+        taskMember.setUser(user);
+        taskMember.setFinish(false);
+        taskMember.setContentTask(editContentWork.getText().toString());
+        Date date ;
+        try {
+            date = convertDate(editTimeFinish.getText().toString());
+            task.setDateFinish(date);
+            taskMember.setDateFinish(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        taskMember.setListDetalDetailTaskMember(detailTaskMemberList);
+
+        taskMember.setTask(task);
+
+        if(checkSave){
+            Log.d("timesee", "aa");
+            createBackgroundService(date, taskMember);
+        }
+
+
+        ApiService.apiService.saveTaskMember(taskMember).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                Toast.makeText(AddTimelineActivity.this, "Lưu thành công", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Toast.makeText(AddTimelineActivity.this, "Lưu thất bại", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -170,22 +261,36 @@ public class AddTimelineActivity extends AppCompatActivity {
             detailTaskMember.setFinish(false);
             detailTaskMember.setContentTask(editContentWork.getText().toString());
             detailTaskMember.setTitleTask(editNameWorkDialog.getText().toString());
+            Date dateSave ;
             try {
-                detailTaskMember.setDateFinish(convertDate(editTimeFinish.getText().toString() ));
+                dateSave =  convertDate(editTimeFinish.getText().toString() );
+                detailTaskMember.setDateFinish(dateSave);
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
-            if(checkSave){
-                createBackgroundService();
-            }
+
             detailTaskMemberList.add(detailTaskMember);
             timeLineAdapter.setListWork(detailTaskMemberList);
+
             dialogFragment.dismiss();
         });
     }
 
-    private void createBackgroundService() {
+    private void createBackgroundService(Date date, TaskMember taskMember) {
+        Date now = new Date();
+        Log.d("timesee", date.getTime() - now.getTime() + 1000 + "");
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+        Gson gson = new Gson();
+        Data inputData = new Data.Builder()
+                .putString("taskMember",gson.toJson(taskMember) )
+                .putLong("idUser", user.getId())
+                .build();
         WorkRequest create = new OneTimeWorkRequest.Builder(NoticeWorker.class)
+                .setConstraints(constraints)
+                .setInputData(inputData)
+                .setInitialDelay(date.getTime() - now.getTime() + 1000 , TimeUnit.MILLISECONDS )
                 .build();
         WorkManager.getInstance(this).enqueue(create);
     }
@@ -209,6 +314,7 @@ public class AddTimelineActivity extends AppCompatActivity {
 
         // set adapter
         timeLineAdapter = new TimeLineAdapter();
+
         recyclerView.setAdapter(timeLineAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

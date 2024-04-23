@@ -46,6 +46,7 @@
 
         <activity
             android:name=".AddTimelineActivity"
+            android:parentActivityName=".MainActivity2"
             android:exported="false" />
         <activity
             android:name=".GroupActivity"

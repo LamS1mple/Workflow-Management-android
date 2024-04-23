@@ -106,6 +106,7 @@ public class HomeFragment extends Fragment {
 
         btn_notification.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), NotificationActivity.class);
+            intent.putExtra("idUser", user.getId());
             startActivity(intent);
         });
     }

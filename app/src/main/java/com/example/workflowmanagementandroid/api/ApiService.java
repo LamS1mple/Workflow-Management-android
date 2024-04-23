@@ -2,6 +2,7 @@ package com.example.workflowmanagementandroid.api;
 
 
 import com.example.workflowmanagementandroid.Model.Group;
+import com.example.workflowmanagementandroid.Model.NoticeTask;
 import com.example.workflowmanagementandroid.Model.TaskMember;
 import com.example.workflowmanagementandroid.Model.User;
 import com.example.workflowmanagementandroid.ResponseApi.ApiResponse;
@@ -27,7 +28,7 @@ public interface ApiService {
             .create();
     ApiService apiService = new Retrofit.Builder()
 
-            .baseUrl("http://192.168.77.203:8080/")
+            .baseUrl("http://192.168.45.203:8080/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
@@ -53,4 +54,18 @@ public interface ApiService {
 
     @GET("group/get-group-{id}")
     Call<Group> getZoom(@Path("id")long id);
+
+    @GET("/task/get-task-member/{id}")
+    Call<TaskMember> getTaskId(@Path("id")long id);
+
+    @GET("/task/delete-task/{id}")
+    Call<Void> deteleTask(@Path("id")long id);
+    @POST("/task/save-task")
+    Call<Void> updateTaskMember(@Body TaskMember taskMember);
+
+    @POST("/notice/save-notice")
+    Call<NoticeTask> saveNotice(@Body NoticeTask noticeTask);
+
+    @GET("/notice/get-notice-{id}")
+    Call<List<NoticeTask>> getAllNotice(@Path(("id")) long id);
 }

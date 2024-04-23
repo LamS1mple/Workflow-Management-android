@@ -1,6 +1,7 @@
 package com.example.workflowmanagementandroid.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workflowmanagementandroid.AddTimelineActivity;
 import com.example.workflowmanagementandroid.Model.Group;
 import com.example.workflowmanagementandroid.Model.Task;
 import com.example.workflowmanagementandroid.Model.TaskMember;
 import com.example.workflowmanagementandroid.R;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -48,7 +51,7 @@ public class ListWorkAdapter extends RecyclerView.Adapter<ListWorkAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.editWork.setOnClickListener((view) ->{
-            createdMenu(view);
+            createdMenu(view, position);
         });
         holder.titleWork.setText(taskMemberList.get(position).getContentTask());
 
@@ -71,21 +74,30 @@ public class ListWorkAdapter extends RecyclerView.Adapter<ListWorkAdapter.ViewHo
         }else{
             if (  time > 10 ){
                 holder.backGround.setBackgroundColor(context.getColor(R.color.white));
-            }else if (time > 0){
+            }else if (taskMemberList.get(position).getDateFinish().getTime()
+                    - Calendar.getInstance().getTime().getTime() > 0){
                 holder.backGround.setBackgroundColor(context.getColor(R.color.warning));
             } else{
                 holder.backGround.setBackgroundColor(context.getColor(R.color.red));
+                holder.timeWork.setTextColor(context.getColor(R.color.white));
+                holder.titleWork.setTextColor(context.getColor(R.color.white));
+                holder.nameGroup.setTextColor(context.getColor(R.color.white));
             }
         }
 
 
     }
 
-    private void createdMenu(View view) {
+    private void createdMenu(View view, int position) {
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.menu_work, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener((menuItem) ->{
-            Toast.makeText(view.getContext(), menuItem.getItemId() + "", Toast.LENGTH_SHORT).show();
+            int id = menuItem.getItemId();
+            if (id == R.id.update_time_signature){
+                Intent intent = new Intent(context, AddTimelineActivity.class);
+                intent.putExtra("idTaskMember", taskMemberList.get(position).getId() );
+                context.startActivity(intent);
+            }
             return true;
         });
         popupMenu.show();

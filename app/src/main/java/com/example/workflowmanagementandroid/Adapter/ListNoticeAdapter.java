@@ -1,5 +1,7 @@
 package com.example.workflowmanagementandroid.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workflowmanagementandroid.AddTimelineActivity;
+import com.example.workflowmanagementandroid.Model.NoticeTask;
 import com.example.workflowmanagementandroid.Model.Notification;
 import com.example.workflowmanagementandroid.R;
 
@@ -17,13 +21,11 @@ import java.util.List;
 public class ListNoticeAdapter extends RecyclerView.Adapter<ListNoticeAdapter.ViewHolder> {
 
 
-    private List<Notification> list;
+    private Context context;
+    private List<NoticeTask> list;
 
-    public List<Notification> getList() {
-        return list;
-    }
 
-    public void setList(List<Notification> list) {
+    public void setList(List<NoticeTask> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -33,15 +35,23 @@ public class ListNoticeAdapter extends RecyclerView.Adapter<ListNoticeAdapter.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_notice, parent, false);
+        context = parent.getContext();
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.titleNotice.setText(list.get(position).getTitle());
-        holder.contentNotice.setText(list.get(position).getContent());
-        holder.imageNotice.setImageResource(list.get(position).getImgNotice());
-        holder.timeNotice.setText(list.get(position).getTime() + "");
+        holder.titleNotice.setText(list.get(position).getTitleNotice());
+        holder.contentNotice.setText(list.get(position).getContentNotic());
+        holder.imageNotice.setImageResource(R.drawable.note);
+        holder.imageNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AddTimelineActivity.class);
+                intent.putExtra("idTaskMember", list.get(position).getTaskMember().getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

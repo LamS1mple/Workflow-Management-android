@@ -24,6 +24,8 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.TimeUnit;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findId();
-        WorkRequest create = new OneTimeWorkRequest.Builder(NoticeWorker.class)
-                .build();
-        WorkManager.getInstance(this).enqueue(create);
+
+
+
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
